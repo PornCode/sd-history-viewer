@@ -1,5 +1,5 @@
 # Application Installation and Launch Guide
-
+[🇷🇺 Читать на русском](README_ru.md)
 ## Description
 
 This application is an image viewer that displays generation metadata. Often, when generating images using Stable Diffusion, you may forget which parameters you used. This application conveniently lets you view images from a specified directory (typically `/Users/PornCode/stable-diffusion-webui-forge/outputs`) and its subfolders. When selecting an image, it displays the prompt, negative prompt, and all associated metadata.
