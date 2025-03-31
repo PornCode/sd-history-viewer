@@ -78,4 +78,5 @@ If you encounter issues running the application, ensure dependencies are correct
 To send a message to the developer or support the project with a donation (highly appreciated), please use the [Telegram bot](https://t.me/create_donations_bot?start=github).
 
 ---
+![Preview](https://raw.githubusercontent.com/PornCode/assets/refs/heads/main/sd-history-viewer/prew_screen.png)
 
