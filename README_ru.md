@@ -78,4 +78,4 @@ chmod +x install.sh
 Чтобы отправить сообщение разработчику или поддержать проект донатом (что очень приветствуется), воспользуйтесь [Telegram-ботом](https://t.me/create_donations_bot?start=github).
 
 ---
-![Preview](https://raw.githubusercontent.com/PornCode/assets/refs/heads/main/sd-history-viewer/prew_screen.png)
+![Preview](https://raw.githubusercontent.com/PornCode/assets/main/sd-history-viewer/prew_screen.png)
