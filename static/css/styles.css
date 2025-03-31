@@ -1,0 +1,1447 @@
+:root {
+    --primary-color: #d347c7;
+    --secondary-color: #6c757d;
+    --background-color: #1b1d1e;
+    --border-color: #505050;
+    --hover-color: #383a3c;
+    --section-background: #2b2b2c;
+    --color: #e4e4e4;
+    --promtheaders: #8d80e4;
+    --promt-background: #292929f7;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scrollbar-width: thin;
+    /* "auto" | "thin" | "none" */
+    scrollbar-color: #595c60 #393b3e;
+    /* ползунок и трек */
+}
+
+/* Для конкретного элемента */
+.scrollable-element {
+    scrollbar-width: thin;
+    scrollbar-color: #595c60 #393b3e;
+}
+
+body {
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1.6;
+    color: var(--color);
+    background-color: var(--background-color);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Боковая панель */
+.sidebar {
+    width: 250px;
+    background-color: var(--background-color);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.sidebar-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-header h2 {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+/* Конфигурация директории */
+.directory-config {
+    padding: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.input-group {
+    display: flex;
+    width: 100%;
+}
+
+.directory-input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px 0 0 4px;
+    outline: none;
+}
+
+.directory-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+/* Фильтры */
+.filters {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.filter-option {
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.filter-option:hover {
+    background-color: var(--hover-color);
+}
+
+.filter-option.active {
+    background-color: var(--primary-color);
+
+}
+
+/* Дерево директорий */
+.directory-tree {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+}
+
+.folder {
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+}
+
+.folder-name {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.folder-name:hover {
+    background-color: var(--hover-color);
+}
+
+.folder-name.active {
+    background-color: var(--hover-color);
+    font-weight: bold;
+}
+
+.folder-name i {
+    margin-right: 8px;
+}
+
+/* Галерея */
+.gallery {
+    flex: 1;
+    display: flex;
+    height: 100%;
+    overflow: hidden;
+}
+
+.gallery-container {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-gap: 1rem;
+    align-content: start;
+}
+
+.image-item {
+    position: relative;
+    height: 150px;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: all 0.3s;
+}
+
+.image-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.image-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-item.selected {
+    border: 3px solid var(--primary-color);
+}
+
+.favorite-icon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+}
+
+.favorite-icon.favorited {
+    color: gold;
+}
+
+.favorite-icon:hover {
+    transform: scale(1.2);
+}
+
+/* Панель метаданных */
+.metadata-panel {
+    width: 300px;
+    background-color: var(--background-color);
+    border-left: 1px solid var(--border-color);
+    padding: 1rem;
+    overflow-y: auto;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+}
+
+.copyable-text,
+.metadata-value,
+.parameter-item {
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+}
+
+.metadata-panel h3 {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.image-preview {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.image-preview img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.image-actions button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.image-actions button:hover {
+    opacity: 0.9;
+}
+
+.metadata-group {
+    margin-bottom: 1rem;
+}
+
+.metadata-group h4 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--promtheaders);
+}
+
+.metadata-item {
+    display: flex;
+    margin-bottom: 0.3rem;
+}
+
+.metadata-label {
+    flex: 1;
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+
+.metadata-value {
+    flex: 2;
+    word-break: break-word;
+}
+
+.metadata-section {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: var(--promt-background);
+
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.metadata-section h5 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    color: var(--promtheaders);
+    font-size: 0.9rem;
+
+}
+
+.metadata-value-block {
+    position: relative;
+
+}
+
+.copyable-text {
+    padding: 8px;
+    background-color: white;
+    border-radius: 4px;
+    white-space: pre-wrap;
+    margin-bottom: 5px;
+}
+
+.copy-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.copy-button:hover {
+    opacity: 0.9;
+}
+
+.parameter-item {
+    margin-bottom: 5px;
+    padding: 3px 0;
+}
+
+.seed-value {
+    cursor: pointer;
+    display: inline-block;
+    background-color: #ffffff26;
+    padding: 3px 6px;
+    border-radius: 3px;
+    margin-right: 5px;
+}
+
+.seed-value:hover {
+    background: var(--primary-color);
+}
+
+/* Модальное окно */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.modal-content img {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Состояния приложения */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.loading-spinner {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid var(--primary-color);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: var(--secondary-color);
+    text-align: center;
+    padding: 2rem;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+/* Тост-уведомления */
+#toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    z-index: 1000;
+    transition: opacity 0.3s;
+    opacity: 0;
+}
+
+/* Добавьте это в конец файла css */
+.copyable-text {
+    white-space: pre-wrap;
+    word-break: break-word;
+    background-color: var(--promt-background);
+}
+
+/* Стили для тегов LoRA */
+.copyable-text lora {
+    color: #4a6baf;
+    font-weight: bold;
+}
+
+.image-preview img {
+    cursor: pointer;
+}
+
+/* Стили для контекстного меню */
+.custom-context-menu {
+    position: fixed;
+    background-color: var(--background-color);
+
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    min-width: 150px;
+    max-width: 200px;
+    padding: 5px 0;
+    overflow: hidden;
+}
+
+.context-menu-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.context-menu-item:hover {
+    background-color: color-mix(in srgb, var(--background-color), #ffffff 10%);
+}
+
+/* Стили для попапа выбора директории */
+.path-selection-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.path-selection-popup {
+    background-color: var(--background-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    width: 600px;
+    max-width: 90%;
+    padding: 40px 60px;
+    position: relative;
+}
+
+.path-selection-popup h2 {
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.path-selection-popup p {
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.path-selection-popup .input-container {
+    margin: 20px 0;
+}
+
+.path-selection-popup input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.path-selection-popup .buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.path-selection-popup button {
+    padding: 8px 16px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.path-selection-popup button:hover {
+    opacity: 0.9;
+}
+
+.popup-language-switcher {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 5px;
+    z-index: 10;
+}
+
+.popup-language-switcher .lang-button {
+    padding: 5px 8px;
+    border: 1px solid #868686;
+    background: #5d5d5d;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.popup-language-switcher .lang-button.active {
+    background: #007bff;
+    color: white;
+    border-color: #0069d9;
+}
+
+.blur-background {
+    filter: blur(5px);
+    pointer-events: none;
+}
+
+/* Стили для селектора корневых директорий */
+.root-selector {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.root-select {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--background-color);
+    color: var(--color);
+    outline: none;
+}
+
+.settings-button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+/* Стили для модального окна настроек */
+.settings-modal-content {
+    position: relative;
+    background-color: var(--section-background);
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    width: 80%;
+    max-width: 700px;
+    max-height: 80vh;
+    overflow-y: auto;
+    color: var(--color);
+}
+
+.close-settings {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: var(--color);
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.settings-section {
+    margin-bottom: 20px;
+}
+
+.settings-section h3 {
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.settings-section h4 {
+    margin: 15px 0 10px;
+}
+
+.root-directories-list {
+    margin-bottom: 20px;
+}
+
+.root-directory-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    margin-bottom: 10px;
+    background-color: var(--background-color);
+}
+
+.directory-info {
+    flex: 1;
+}
+
+.directory-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.directory-path {
+    font-size: 0.9em;
+    color: var(--secondary-color);
+    word-break: break-all;
+}
+
+.directory-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.edit-button,
+.remove-button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.edit-button:hover,
+.remove-button:hover {
+    opacity: 0.9;
+}
+
+.remove-button {
+    background-color: #e74c3c;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.settings-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--background-color);
+    color: var(--color);
+}
+
+/* Стили для контейнера кнопок */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    /* Add слева, Browse справа */
+    align-items: center;
+    /* Выравнивание по вертикали */
+    margin-top: 12px;
+    /* Отступ сверху (как у browse-button) */
+}
+
+/* Кнопка Add (оставляем текущие стили, но убираем margin-top) */
+.add-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+/* Кнопка Browse (убираем margin-left: auto и display: block) */
+.browse-button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+/* Стили для коллекций */
+#collectionsContainer {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 5px;
+}
+
+.add-collection-button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--secondary-color);
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+.add-collection-button:hover {
+    color: var(--primary-color);
+    background-color: var(--hover-color);
+}
+
+.collection-filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 5px;
+}
+
+.collection-actions {
+    display: flex;
+    gap: 5px;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.collection-filter:hover .collection-actions {
+    opacity: 1;
+}
+
+.collection-action-button {
+    background: none;
+    border: none;
+    color: var(--color);
+    cursor: pointer;
+    font-size: 0.8em;
+    padding: 2px;
+}
+
+.collection-action-button:hover {
+    color: var(--primary-color);
+}
+
+/* Модальное окно для коллекций */
+.collection-modal-content {
+    position: relative;
+    background-color: var(--section-background);
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    width: 440px;
+    max-width: 80%;
+    color: var(--color);
+}
+
+.close-collection,
+.close-select-collection {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: var(--color);
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.collection-form {
+    margin-top: 20px;
+}
+
+.collection-form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.cancel-button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+/* Список коллекций в модальном окне */
+.collections-list-modal {
+    margin-top: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.collection-item-modal {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.collection-item-modal:hover {
+    background-color: var(--hover-color);
+}
+
+.collection-item-modal i {
+    margin-right: 10px;
+    color: var(--color);
+}
+
+.root-indicator {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    max-width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Стили для заголовка с логотипом */
+.logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    /* padding: 10px 0; */
+}
+
+.logo-image {
+    width: 190px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.logo-text h2 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.logo-subtitle {
+    margin: 5px 0 0;
+    font-size: 0.8rem;
+    color: var(--secondary-color);
+}
+
+/* Стиль для отображения количества изображений в коллекции */
+.collection-count {
+    font-size: 0.8em;
+    color: var(--secondary-color);
+    margin-left: 4px;
+}
+
+/* Стили для выделения активных коллекций в модальном окне */
+.collection-item-active {
+    /* background-color: rgba(83, 21, 80, 0.2);*/
+    /* Полупрозрачный оттенок основного цвета */
+    border-radius: 0px;
+}
+
+.collection-active-icon {
+    color: var(--primary-color) !important;
+
+}
+
+/* Стили для поиска */
+.search-container {
+    padding: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    flex: 1;
+    padding: 8px;
+    padding-left: 30px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--background-color);
+    color: var(--color);
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    left: 10px;
+    color: var(--secondary-color);
+}
+
+.clear-search-icon {
+    position: absolute;
+    right: 10px;
+    color: var(--secondary-color);
+    cursor: pointer;
+    display: none;
+}
+
+.clear-search-icon.visible {
+    display: block;
+}
+
+/* Стили для результатов поиска */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-gap: 1rem;
+}
+
+.search-results-header {
+    grid-column: 1 / -1;
+    /* Заголовок занимает всю ширину */
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.1rem 0.7rem 1.1rem 0.7rem;
+    background-color: var(--section-background);
+    border-radius: 4px;
+}
+
+.gallery-container.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-gap: 1rem;
+}
+
+.search-count {
+    color: var(--secondary-color);
+    font-size: 0.9em;
+}
+
+.search-highlight {
+    background-color: rgba(255, 255, 0, 0.3);
+    padding: 2px;
+    border-radius: 2px;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    color: var(--secondary-color);
+    grid-column: 1 / -1;
+    width: 100%;
+    text-align: center;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+/* Стили для индикатора прогресса индексации */
+.indexing-progress {
+    padding: 5px 10px;
+    background-color: var(--section-background);
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.8rem;
+}
+
+.indexing-label {
+    color: var(--secondary-color);
+    margin-bottom: 3px;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 4px;
+    background-color: var(--background-color);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--primary-color);
+    width: 0;
+    transition: width 0.3s;
+}
+
+/* Стили для фильтров поиска */
+.search-title-row {
+    /* display: flex; */
+    justify-content: space-between;
+    align-items: center;
+    /* margin-bottom: 0.5rem; */
+}
+
+.search-filters-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    /* margin-top: 0.5rem; */
+}
+
+.search-filter-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.search-filter-group label {
+    font-size: 0.8rem;
+    color: var(--secondary-color);
+}
+
+.search-select {
+    background-color: var(--background-color);
+    color: var(--color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 4px 6px;
+    font-size: 0.8rem;
+}
+
+.search-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+
+
+
+/* Стили для тестового контейнера */
+.test-custom-select-container {
+    margin: 20px;
+    padding: 20px;
+    background-color: var(--section-background);
+    border-radius: 8px;
+    max-width: 300px;
+}
+
+.test-custom-select-container h3 {
+    margin-bottom: 15px;
+}
+
+/* Стили для кастомного селекта */
+.custom-select {
+    position: relative;
+    width: 100%;
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.custom-select-trigger {
+    position: relative;
+    display: block;
+    padding: 8px 12px;
+    background-color: var(--background-color);
+    color: var(--color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    transition: all 0.2s ease-in-out;
+}
+
+.custom-select-trigger:after {
+    content: '\f107';
+    /* Иконка стрелки вниз из Font Awesome */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.3s;
+}
+
+.custom-select.open .custom-select-trigger:after {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.custom-select.open .custom-select-trigger {
+    border-color: var(--primary-color);
+}
+
+.custom-options {
+    position: absolute;
+    display: block;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--background-color);
+    color: var(--color);
+    border: 1px solid var(--border-color);
+    border-top: 0;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.25s ease-in-out;
+    z-index: 100;
+}
+
+.custom-select.open .custom-options {
+    max-height: 200px;
+    opacity: 1;
+    overflow-y: auto;
+}
+
+.custom-option {
+    position: relative;
+    display: block;
+    padding: 8px 12px;
+    transition: all 0.2s;
+}
+
+.custom-option:hover {
+    background-color: var(--hover-color);
+}
+
+.custom-option.selected {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Кастомный скроллбар для выпадающего списка */
+.custom-options::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-options::-webkit-scrollbar-track {
+    background: var(--background-color);
+}
+
+.custom-options::-webkit-scrollbar-thumb {
+    background-color: var(--secondary-color);
+    border-radius: 3px;
+}
+
+/* Переключение языков*/
+
+.language-switcher {
+    display: flex;
+    margin-left: auto;
+    gap: 5px;
+}
+
+.lang-button {
+    background-color: var(--background-color);
+    color: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.lang-button:hover {
+    background-color: var(--hover-color);
+}
+
+.lang-button.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.sidebar-header-lang {
+    padding: 0px 0px 20px 0px;
+    /* margin-left: auto;
+     Сдвигает блок вправо */
+}
+
+/* Стили для блока доната */
+.donate-wrapper {
+    position: fixed;
+    bottom: 20px;
+    margin-left: 20px;
+    font-size: 0.8rem;
+    z-index: 1000;
+}
+
+.donate-block {
+    position: relative;
+    width: auto;
+    height: 40px;
+    background-color: #0088cc;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    padding: 0 15px;
+    transition:
+        background-color 0.3s ease,
+        border-color 0.2s ease;
+    /* Переход только для цвета границы */
+    border: 3px solid transparent;
+    /* Прозрачная граница изначально занимает место */
+    overflow: hidden;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.donate-block i {
+    margin-right: 10px;
+    font-size: 18px;
+    position: relative;
+    z-index: 2;
+}
+
+.donate-block span {
+    position: relative;
+    z-index: 2;
+}
+
+.beer-effect {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    transition: height 0.5s ease;
+}
+
+.beer-wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgb(255 184 0), rgb(255 247 0));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    clip-path: polygon(0% 100%, 15% 85%, 30% 89%, 45% 81%, 60% 87%, 75% 83%, 90% 87%, 100% 83%, 100% 100%, 0% 100%);
+    animation: waveVertical 1s infinite alternate ease-in-out, waveHorizontal 1.3s infinite alternate ease-in-out;
+}
+
+.bubbles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+
+.bubble {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    animation: bubbleRise 1.5s infinite ease-out;
+}
+
+.donate-block:hover {
+    background-color: #000000;
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.5);
+    border: 3px solid white;
+    /* Только цвет меняется, толщина уже есть */
+}
+
+.donate-block:hover .beer-effect {
+    height: 100%;
+}
+
+.donate-block:hover .beer-wave {
+    opacity: 1;
+}
+
+.donate-block:hover .bubbles {
+    opacity: 1;
+}
+
+@keyframes waveVertical {
+    0% {
+        clip-path: polygon(0% 100%, 15% 85%, 30% 89%, 45% 81%, 60% 87%, 75% 83%, 90% 87%, 100% 83%, 100% 100%, 0% 100%);
+    }
+
+    100% {
+        clip-path: polygon(0% 100%, 15% 77%, 30% 81%, 45% 73%, 60% 79%, 75% 75%, 90% 79%, 100% 75%, 100% 100%, 0% 100%);
+    }
+}
+
+@keyframes waveHorizontal {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(10px);
+    }
+}
+
+@keyframes bubbleRise {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-40px);
+        opacity: 0;
+    }
+}
+
+/* Стили для WebKit-скроллбаров (для нативного приложения) */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #393b3e;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #595c60;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Специфичные стили для нативного приложения через класс */
+.pywebview-window ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.pywebview-window ::-webkit-scrollbar-track {
+    background: #393b3e;
+    border-radius: 5px;
+}
+
+.pywebview-window ::-webkit-scrollbar-thumb {
+    background: #595c60;
+    border-radius: 5px;
+}
+
+.pywebview-window ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.image-item img.dragging {
+    opacity: 0.7;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.root-directory-info {
+    padding: 8px 12px;
+    background-color: var(--background-color);
+    border-left: 4px solid #007bff;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.root-directory-info i {
+    margin-right: 8px;
+    color: #007bff;
+}

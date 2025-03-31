@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PornCode SD Gallery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.png') }}" type="image/png">
+    <!-- Импорт шрифта JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+        rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/localization.js') }}"></script>
+
+
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+
+            <div class="logo-container">
+                <div class="sidebar-header-lang"></div>
+                <a href="https://porncode.ru/" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ url_for('static', filename='img/logo_porncode.png') }}" alt="PornCode Logo"
+                        class="logo-image">
+                </a>
+                <div class="logo-text">
+                    <h2>PornCode Gallery</h2>
+                    <p class="logo-subtitle">Gallery for Stable Diffusion | ComfyUI | Others</p>
+                </div>
+            </div>
+        </div>
+        <div id="indexingProgress" class="indexing-progress" style="display: none;">
+            <div class="indexing-label">Индексация метаданных...</div>
+            <div class="progress-bar-container">
+                <div id="indexingProgressBar" class="progress-bar"></div>
+            </div>
+        </div>
+        <div class="search-container">
+            <div class="search-input-wrapper">
+                <input type="text" id="searchInput" placeholder="Поиск по промпту..."
+                    data-i18n-placeholder="search_prompt" class="search-input">
+                <i class="fas fa-search search-icon"></i>
+                <i class="fas fa-times clear-search-icon" id="clearSearchIcon"></i>
+            </div>
+        </div>
+        <div class="directory-config">
+            <div class="root-selector">
+                <select id="rootDirectorySelector" class="root-select">
+                    <option value="" data-i18n="choose_directory">Выберите директорию</option>
+                </select>
+                <button id="settingsButton" class="settings-button"><i class="fas fa-cog"></i></button>
+            </div>
+        </div>
+        <div class="filters">
+            <div class="filter-option active" data-filter="all" data-i18n="all_images">Все изображения</div>
+            <div id="collectionsContainer">
+                <!-- Здесь будут коллекции -->
+            </div>
+            <div class="add-collection-button" id="addCollectionButton">
+                <i class="fas fa-plus"></i> <span data-i18n="add_collection">Добавить коллекцию</span>
+            </div>
+        </div>
+        <div class="directory-tree" id="directoryTree">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="gallery">
+        <div class="gallery-container" id="galleryContainer">
+            <div class="empty-state">
+                <i class="fas fa-image"></i>
+                <p data-i18n="select_folder">Выберите папку для просмотра изображений</p>
+            </div>
+        </div>
+
+        <div class="donate-wrapper">
+            <a href="https://t.me/create_donations_bot?start=sd_gallery" target="_blank" class="donate-block">
+                <i class="fa-brands fa-telegram"></i>
+                <span data-i18n="beer_donate">Закинуть автору на пиво</span>
+                <div class="beer-effect">
+                    <div class="beer-wave"></div>
+                    <div class="bubbles"></div>
+                </div>
+            </a>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const bubblesContainer = document.querySelector('.bubbles');
+                const donateBlock = document.querySelector('.donate-block');
+
+                if (!bubblesContainer || !donateBlock) {
+                    console.error('Не найдены необходимые элементы: .bubbles или .donate-block');
+                    return;
+                }
+
+                function createBubble() {
+                    const bubble = document.createElement('div');
+                    bubble.className = 'bubble';
+
+                    const size = Math.random() * 4 + 2;
+                    bubble.style.width = `${size}px`;
+                    bubble.style.height = `${size}px`;
+                    bubble.style.left = `${Math.random() * 100}%`;
+                    bubble.style.bottom = '0';
+                    bubble.style.animationDuration = `${Math.random() * 1 + 1}s`;
+
+                    bubblesContainer.appendChild(bubble);
+
+                    setTimeout(() => {
+                        bubble.remove();
+                    }, 1500);
+                }
+
+                let bubbleInterval;
+
+                donateBlock.addEventListener('mouseenter', () => {
+                    bubbleInterval = setInterval(createBubble, 100);
+                });
+
+                donateBlock.addEventListener('mouseleave', () => {
+                    clearInterval(bubbleInterval);
+                });
+            });
+        </script>
+
+        <div class="metadata-panel" id="metadataPanel">
+            <div class="empty-state">
+                <i class="fas fa-info-circle"></i>
+                <p data-i18n="select_image_metadata">Выберите изображение для просмотра метаданных</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <div class="modal-content">
+            <img id="modalImage" src="">
+        </div>
+    </div>
+    <div id="settingsModal" class="modal settings-modal">
+        <div class="settings-modal-content">
+            <span class="close-settings">&times;</span>
+            <h2 data-i18n="settings">Настройки</h2>
+
+            <div class="settings-section">
+                <h3 data-i18n="root_directories">Корневые директории</h3>
+                <div class="root-directories-list" id="rootDirectoriesList">
+                    <!-- Здесь будут директории -->
+                </div>
+
+                <div class="add-directory-form">
+                    <h4 data-i18n="add_new_directory">Добавить новую директорию</h4>
+                    <div class="form-group">
+                        <label for="newDirectoryName" data-i18n="directory_name">Название:</label>
+                        <input type="text" id="newDirectoryName" placeholder="Например: SD WebUI" class="settings-input"
+                            data-i18n-placeholder="example_directory">
+                    </div>
+                    <div class="form-group">
+                        <label for="newDirectoryPath" data-i18n="directory_path">Путь:</label>
+                        <input type="text" id="newDirectoryPath" placeholder="/путь/к/директории" class="settings-input"
+                            data-i18n-placeholder="directory_path_placeholder">
+                        <div class="form-actions"> <!-- Новый контейнер -->
+
+                            <button id="browseDirectoryButton" class="browse-button" data-i18n="browse">Browse</button>
+                            <button id="addDirectoryButton" class="add-button" data-i18n="add">Add</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <!-- Добавьте модальное окно для создания коллекции перед закрывающим тегом body -->
+    <div id="collectionModal" class="modal collection-modal">
+        <div class="collection-modal-content">
+            <span class="close-collection">&times;</span>
+            <h2 id="collectionModalTitle">Новая коллекция</h2>
+
+            <div class="collection-form">
+                <div class="form-group">
+                    <label for="collectionName" data-i18n="collection_name">Название:</label>
+                    <input type="text" id="collectionName" placeholder="Введите название коллекции"
+                        data-i18n-placeholder="collection_name_placeholder" class="settings-input">
+                </div>
+
+                <div class="collection-form-buttons">
+                    <button id="saveCollectionButton" class="add-button" data-i18n="create">Создать</button>
+                    <button id="cancelCollectionButton" class="cancel-button" data-i18n="cancel">Отмена</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для выбора коллекции при добавлении в избранное -->
+    <div id="selectCollectionModal" class="modal collection-modal">
+        <div class="collection-modal-content">
+            <span class="close-select-collection">&times;</span>
+            <h2>Выберите коллекцию</h2>
+
+            <div id="collectionsListModal" class="collections-list-modal">
+                <!-- Здесь будут коллекции -->
+            </div>
+
+            <div class="collection-form-buttons">
+                <button id="newCollectionInModalButton" class="add-button">
+                    <i class="fas fa-plus"></i> Создать новую коллекцию
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
